@@ -3,8 +3,8 @@ Title: Hypothesis Prioritisation in multi-trait Colocalisation (HyPrColoc) analy
 Version: 1.0
 Date: 15-01-2019
 Author: Christopher Foley and James Staley
-Maintainer: James Staley <jrstaley95@gmail.com>
-Description: This package is used to perform multi-trait colocalisation analyses using HyPrColoc. 
+Maintainer: Christopher Foley <chris.neal.foley@gmail.com>
+Description: This R package is used to perform multi-trait colocalisation analyses using HyPrColoc. 
 Depends: R (>= 3.4.0), methods
 License: GPL (>= 2)
 ByteCompile: TRUE
