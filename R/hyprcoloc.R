@@ -947,7 +947,6 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' @return snpscores: a list of estimated posterior probabilities explained by the SNPs; for the BB algorithm there is a set of SNP probabilities for each iteration
 #' @import compiler Rmpfr iterpc Matrix
 #' @importFrom Rcpp evalCpp
-#' @useDynLib hyprcoloc
 #' @author Christopher N Foley <chris.neal.foley@gmail.com> and James R Staley <jrstaley95@gmail.com>
 #' @examples
 #' # Regression coefficients and standard errors from ten GWAS studies (Traits 1-5, 6-8 & 9-10 colocalize)
@@ -962,7 +961,7 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' 
 #' # Colocalisation analyses
 #' results <- hyprcoloc(betas, ses, trait.names=traits, snp.id=rsid)
-#' @export
+#' @useDynLib hyprcoloc
 hyprcoloc <- function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect.est)[2]),
                       trait.subset = c(1:dim(effect.est)[2]), trait.names = c(1:dim(effect.est)[2]),
                       snp.id = c(1:dim(effect.est)[1]), ld.matrix = diag(1, dim(effect.est)[1], dim(effect.est)[1]),
