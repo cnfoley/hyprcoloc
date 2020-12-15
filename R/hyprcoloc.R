@@ -912,7 +912,7 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 
 #' HyPrColoc
 #'
-#' hyprcoloc is a function which allows the user to perform multi-trait colocalisation analyses in genomic regions
+#' hyprcoloc is a function used to identify clusters of colocalized traits, and candidate causal SNPs, in genomic regions
 #' @param effect.est matrix of snp regression coefficients (i.e. regression beta values) in the genomic region 
 #' @param effect.se matrix of standard errors associated with the beta values
 #' @param binary.outcomes a binary vector of dimension the number of traits: 1 represents a binary trait 0 otherwise
@@ -950,7 +950,8 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' @useDynLib hyprcoloc
 #' @author Christopher N Foley <chris.neal.foley@gmail.com> and/n James R Staley <jrstaley95@gmail.com>
 #' @examples
-#' # Regression coefficients and standard errors from ten GWAS studies (Traits 1-5, 6-8 & 9-10 colocalize)
+#' # Regression coefficients and standard errors from ten GWAS studies
+#' # (Traits 1-5, 6-8 & 9-10 are the clusters of colocalized traits)
 #' betas <- hyprcoloc::test.betas
 #' head(betas)
 #' ses <- hyprcoloc::test.ses

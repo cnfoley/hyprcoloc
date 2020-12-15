@@ -31,13 +31,13 @@ hyprcoloc(
 )
 }
 \arguments{
-\item{effect.est}{matrix of beta values}
+\item{effect.est}{matrix of snp regression coefficients (i.e. regression beta values) in the genomic region}
 
-\item{effect.se}{matrix of se values}
+\item{effect.se}{matrix of standard errors associated with the beta values}
 
-\item{binary.outcomes}{a binary vector depicting binary traits}
+\item{binary.outcomes}{a binary vector of dimension the number of traits: 1 represents a binary trait 0 otherwise}
 
-\item{trait.subset}{vector of traits from the full trait list for trageted coloclaisation analysis}
+\item{trait.subset}{vector of trait names (or number) from the full trait list: used for trageted coloclaisation analysis in a region}
 
 \item{trait.names}{vector of trait names corresponding to the columns in the effect.est matrix}
 
@@ -45,13 +45,13 @@ hyprcoloc(
 
 \item{ld.matrix}{LD matrix}
 
-\item{trait.cor}{correlation matrix between traits}
+\item{trait.cor}{matrix of pairwise correlations between traits}
 
-\item{sample.overlap}{matrix of sample overlap between traits}
+\item{sample.overlap}{matrix of pairwise sample overlap between traits}
 
-\item{bb.alg}{branch and bound algorithm}
+\item{bb.alg}{branch and bound algorithm: TRUE, employ BB algorithm; FALSE, do not}
 
-\item{bb.selection}{branch and bound algorithm type}
+\item{bb.selection}{branch and bound algorithm type, e.g. regional or alignment selection}
 
 \item{reg.steps}{regional step paramter}
 
@@ -81,10 +81,6 @@ hyprcoloc(
 
 \item{reg.tol}{regional tolerance parameter}
 
-\item{prior.3}{prior probability that a trait contains a second causal variant given it contains one already}
-
-\item{prior.4}{1 - prior probability that trait two co-localises with trait one given traits one and two already share a causal variant and trait one contains a second causal variant}
-
 \item{sens.1}{first sensitivity analysis}
 
 \item{sens.2}{second sensitivity analysis}
@@ -101,10 +97,11 @@ results a data.frame of HyPrColoc results
 snpscores a list of estimated posterior probabilities explained by the SNPs; for the BB algorithm there is a set of SNP probabilities for each iteration
 }
 \description{
-hyprcoloc is a function which allows the user to perform multi-trait colocalisation analyses in genomic regions
+hyprcoloc is a function used to identify clusters of colocalized traits, and candidate causal SNPs, in genomic regions
 }
 \examples{
-# Regression coefficients and standard errors from ten GWAS studies (Traits 1-5, 6-8 & 9-10 colocalize)
+# Regression coefficients and standard errors from ten GWAS studies
+# (Traits 1-5, 6-8 & 9-10 are the clusters of colocalized traits)
 betas <- hyprcoloc::test.betas
 head(betas)
 ses <- hyprcoloc::test.ses
@@ -118,5 +115,5 @@ rsid <- rownames(betas)
 results <- hyprcoloc(betas, ses, trait.names=traits, snp.id=rsid)
 }
 \author{
-Christopher N Foley <chris.neal.foley@gmail.com> and James R Staley <jrstaley95@gmail.com>
+Christopher N Foley <chris.neal.foley@gmail.com> and/n James R Staley <jrstaley95@gmail.com>
 }
