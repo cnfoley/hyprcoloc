@@ -5,7 +5,7 @@
 #' prior
 #'
 #' @param p.1 probability of one trait having a causal variant in the genetic region
-#' @param gamma step probability
+#' @param gamma step probability, i.e. 1 - pc (conditional colocalization probability)
 #' @param k number of traits
 #' @export
 prior <- function(p.1, gamma, k){
@@ -926,7 +926,8 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' @param align.thresh alignment probability threshold
 #' @param reg.tol regional tolerance parameter
 #' @param prior.1 prior probability of a SNP being associated with one trait
-#' @param prior.2 1 - prior probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
+#' @param prior.c conditional colocalization prior: prior probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
+#' @param prior.12 COLOC users: prior probability that a SNP is associated with two traits
 #' @param prior.3 prior probability that a trait contains a second causal variant given it contains one already
 #' @param prior.4 1 - prior probability that trait two co-localises with trait one given traits one and two already share a causal variant and trait one contains a second causal variant
 #' @param sensitivity perform senstivity analysis
@@ -956,7 +957,16 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' 
 #' # Colocalisation analyses
 #' results <- hyprcoloc(betas, ses, trait.names=traits, snp.id=rsid)
-hyprcoloc <- function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect.est)[2]), trait.subset = c(1:dim(effect.est)[2]), trait.names = c(1:dim(effect.est)[2]), snp.id = c(1:dim(effect.est)[1]), ld.matrix = diag(1, dim(effect.est)[1], dim(effect.est)[1]) , trait.cor = diag(1, dim(effect.est)[2], dim(effect.est)[2]), sample.overlap = matrix(rep(1,dim(effect.est)[2]^2) , nrow = dim(effect.est)[2]), bb.alg = TRUE, bb.selection = "regional", reg.steps = 1, reg.thresh = "default", align.thresh = "default", prior.1 = 1e-4, prior.2 = 0.98, sensitivity = FALSE, sense.1 = 1, sense.2 = 2, uniform.priors = FALSE, ind.traits = FALSE, snpscores=FALSE){
+hyprcoloc <- function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect.est)[2]),
+                      trait.subset = c(1:dim(effect.est)[2]), trait.names = c(1:dim(effect.est)[2]),
+                      snp.id = c(1:dim(effect.est)[1]), ld.matrix = diag(1, dim(effect.est)[1], dim(effect.est)[1]),
+                      trait.cor = diag(1, dim(effect.est)[2], dim(effect.est)[2]), 
+                      sample.overlap = matrix(rep(1,dim(effect.est)[2]^2) , nrow = dim(effect.est)[2]), 
+                      bb.alg = TRUE, bb.selection = "regional", reg.steps = 1, 
+                      reg.thresh = "default", align.thresh = "default", 
+                      prior.1 = 1e-4, prior.c = 0.02, prior.12 = NULL,
+                      sensitivity = FALSE, sense.1 = 1, sense.2 = 2, 
+                      uniform.priors = FALSE, ind.traits = FALSE, snpscores=FALSE){
 
   if(any(is.na(effect.est))) stop("there are missing values in effect.est")
   if(any(is.na(effect.se))) stop("there are missing values in effect.se")
@@ -969,7 +979,11 @@ hyprcoloc <- function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect
   if(any(is.na(ld.matrix))) stop("there are missing values in ld.matrix")
   if(any(is.na(trait.cor))) stop("there are missing values in trait.cor")
   if(any(is.na(sample.overlap))) stop("there are missing values in sample.overlap")
-
+  
+  if(!is.null(prior.12)){
+    prior.c = prior.12/(prior.1+prior.12);
+  }
+  prior.2 = 1 - prior.c;
   n.cvs = 1;
   test.2 = F;
   sentinel = 0;
