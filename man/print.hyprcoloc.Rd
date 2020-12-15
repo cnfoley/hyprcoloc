@@ -4,7 +4,7 @@
 \alias{print.hyprcoloc}
 \title{Print HyPrColoc}
 \usage{
-print.hyprcoloc(x, ...)
+\method{print}{hyprcoloc}(x, ...)
 }
 \arguments{
 \item{x}{an object of class "hyprcoloc"}
