@@ -13,4 +13,4 @@ Encoding: UTF-8
 Imports: iterpc, Rcpp, RcppEigen, Rmpfr, compiler, Matrix, knitr, rmarkdown, pheatmap
 LinkingTo: Rcpp, RcppEigen
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.1

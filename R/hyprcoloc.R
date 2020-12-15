@@ -256,7 +256,7 @@ sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(
         }
     }
   }
-  sim.mat = sim.mat/length(reg.thresh)/length(align.thresh)/length(prior.2);
+  sim.mat = sim.mat/length(reg.thresh)/length(align.thresh)/length(prior.c);
   if(equal.thresholds){
   sim.mat = sim.mat*length(align.thresh);
   }
