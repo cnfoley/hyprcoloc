@@ -96,9 +96,9 @@ hyprcoloc(
 \item{branch.jump}{branch jump}
 }
 \value{
-a data.frame of HyPrColoc results
+data.frame of HyPrColoc colocalization results: rows denote clusters of colocalized traits
 
-snpscores a list of estimated posterior probabilities explained by the SNPs; for the BB algorithm there is a set of SNP probabilities for each iteration
+snpscores: a list of estimated posterior probabilities explained by the SNPs; for the BB algorithm there is a set of SNP probabilities for each iteration
 }
 \description{
 hyprcoloc is a function which allows the user to perform multi-trait colocalisation analyses in genomic regions
@@ -118,5 +118,5 @@ rsid <- rownames(betas)
 results <- hyprcoloc(betas, ses, trait.names=traits, snp.id=rsid)
 }
 \author{
-Christopher Foley <christopher.foley@mrc-bsu.cam.ac.uk> and James R Staley <james.staley@bristol.ac.uk>
+Christopher N Foley <chris.neal.foley@gmail.com> and James R Staley <jrstaley95@gmail.com>
 }

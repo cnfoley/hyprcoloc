@@ -13,5 +13,5 @@ print.hyprcoloc(x, ...)
 print method for class "hyprcoloc"
 }
 \author{
-Christopher Foley <christopher.foley@mrc-bsu.cam.ac.uk> and James R Staley <james.staley@bristol.ac.uk>
+Christopher N Foley <chris.neal.foley@gmail.com> and James R Staley <jrstaley95@gmail.com>
 }
