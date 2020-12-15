@@ -1,6 +1,10 @@
 # HyPrColoc
 Hypothesis Prioritisation in multi-trait Colocalization (HyPrColoc).
 
+Genome-wide association studies (GWAS) have identified thousands of genomic regions affecting complex diseases. The next challenge is to elucidate the causal genes and mechanisms involved. One approach is to use statistical colocalization to assess shared genetic aetiology across multiple related traits (e.g. molecular traits, metabolic pathways and complex diseases) to identify causal pathways, prioritize causal variants and evaluate pleiotropy.
+
+HyPrColoc is an efficient deterministic Bayesian divisive clustering algorithm using GWAS summary statistics that can detect colocalization across vast numbers of traits simultaneously.
+
 ## Functions
 * hyprcoloc - identifies clusters of colocalized traits and candidate causal SNPs using the HyPrColoc Bayesian divisive clustering algorithm.
 
