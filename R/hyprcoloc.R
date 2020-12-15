@@ -171,18 +171,18 @@ cred.sets = function(res, value = 0.95){
 #' sensitivity.plot
 #'
 #' sensitivity.plot is a function which repeatedly calls the hyprcoloc function to compute a similarity matrix which illustrates how strongly clustered/colocalized pairs of traits are across different input thresholds and priors     
-#' @param effect.est matrix of beta values
-#' @param effect.se matrix of se values
-#' @param binary.outcomes a binary vector depicting binary traits
-#' @param trait.subset vector of traits from the full trait list for trageted coloclaisation analysis
+#' @param effect.est matrix of snp regression coefficients (i.e. regression beta values) in the genomic region 
+#' @param effect.se matrix of standard errors associated with the beta values
+#' @param binary.outcomes a binary vector of dimension the number of traits: 1 represents a binary trait 0 otherwise
+#' @param trait.subset vector of trait names (or number) from the full trait list: used for trageted coloclaisation analysis in a region
 #' @param trait.names vector of trait names corresponding to the columns in the effect.est matrix
 #' @param snp.id vector of SNP IDs
 #' @param ld.matrix LD matrix
-#' @param trait.cor correlation matrix between traits
-#' @param sample.overlap matrix of sample overlap between traits
+#' @param trait.cor matrix of pairwise correlations between traits
+#' @param sample.overlap matrix of pairwise sample overlap between traits
 #' @param n.cvs number of causal variants
-#' @param bb.alg branch and bound algorithm
-#' @param bb.selection branch and bound algorithm type
+#' @param bb.alg branch and bound algorithm: TRUE, employ BB algorithm; FALSE, do not
+#' @param bb.selection branch and bound algorithm type, e.g. regional or alignment selection
 #' @param reg.steps regional step paramter
 #' @param window.size size of window for 2CV testing
 #' @param sentinel sentinel variant
@@ -193,8 +193,6 @@ cred.sets = function(res, value = 0.95){
 #' @param prior.1 prior probability of a SNP being associated with one trait
 #' @param prior.c vector of conditional colocalization priors: where prior.c is the probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
 #' @param prior.12 COLOC prior p12: prior probability of a SNP being associated with any two traits
-#' @param prior.3 prior probability that a trait contains a second causal variant given it contains one already
-#' @param prior.4 1 - prior probability that trait two co-localises with trait one given traits one and two already share a causal variant and trait one contains a second causal variant
 #' @param unifrom.priors uniform priors
 #' @param ind.traits are the traits independent or to be treated as independent
 #' @param equal.thresholds fix the regional and alignment thresholds to be equal
@@ -203,8 +201,10 @@ cred.sets = function(res, value = 0.95){
 sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect.est)[2]), 
                             trait.subset = c(1:dim(effect.est)[2]), trait.names = c(1:dim(effect.est)[2]),
                             snp.id = c(1:dim(effect.est)[1]), ld.matrix = diag(1, dim(effect.est)[1], dim(effect.est)[1]),
-                            trait.cor = diag(1, dim(effect.est)[2], dim(effect.est)[2]), sample.overlap = matrix(rep(1,dim(effect.est)[2]^2), nrow = dim(effect.est)[2]),
-                            bb.alg = TRUE, bb.selection = "regional", reg.steps = 1, reg.thresh = c(0.6,0.7,0.8,0.9), align.thresh = c(0.6,0.7,0.8,0.9),
+                            trait.cor = diag(1, dim(effect.est)[2], dim(effect.est)[2]), 
+                            sample.overlap = matrix(rep(1,dim(effect.est)[2]^2), nrow = dim(effect.est)[2]),
+                            bb.alg = TRUE, bb.selection = "regional", 
+                            reg.steps = 1, reg.thresh = c(0.6,0.7,0.8,0.9), align.thresh = c(0.6,0.7,0.8,0.9),
                             prior.1 = 1e-4, prior.c = c(0.02, 0.01, 0.005), prior.12 = NULL,
                             uniform.priors = FALSE,
                             ind.traits = TRUE, equal.thresholds = FALSE, similarity.matrix = FALSE){
@@ -913,18 +913,18 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' HyPrColoc
 #'
 #' hyprcoloc is a function which allows the user to perform multi-trait colocalisation analyses in genomic regions
-#' @param effect.est matrix of beta values
-#' @param effect.se matrix of se values
-#' @param binary.outcomes a binary vector depicting binary traits
-#' @param trait.subset vector of traits from the full trait list for trageted coloclaisation analysis
+#' @param effect.est matrix of snp regression coefficients (i.e. regression beta values) in the genomic region 
+#' @param effect.se matrix of standard errors associated with the beta values
+#' @param binary.outcomes a binary vector of dimension the number of traits: 1 represents a binary trait 0 otherwise
+#' @param trait.subset vector of trait names (or number) from the full trait list: used for trageted coloclaisation analysis in a region
 #' @param trait.names vector of trait names corresponding to the columns in the effect.est matrix
 #' @param snp.id vector of SNP IDs
 #' @param ld.matrix LD matrix
-#' @param trait.cor correlation matrix between traits
-#' @param sample.overlap matrix of sample overlap between traits
+#' @param trait.cor matrix of pairwise correlations between traits
+#' @param sample.overlap matrix of pairwise sample overlap between traits
 #' @param n.cvs number of causal variants
-#' @param bb.alg branch and bound algorithm
-#' @param bb.selection branch and bound algorithm type
+#' @param bb.alg branch and bound algorithm: TRUE, employ BB algorithm; FALSE, do not
+#' @param bb.selection branch and bound algorithm type, e.g. regional or alignment selection
 #' @param reg.steps regional step paramter
 #' @param window.size size of window for 2CV testing
 #' @param sentinel sentinel variant
@@ -935,8 +935,6 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' @param prior.1 prior probability of a SNP being associated with one trait
 #' @param prior.c conditional colocalization prior: probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
 #' @param prior.12 COLOC prior p12: prior probability of a SNP being associated with any two traits
-#' @param prior.3 prior probability that a trait contains a second causal variant given it contains one already
-#' @param prior.4 1 - prior probability that trait two co-localises with trait one given traits one and two already share a causal variant and trait one contains a second causal variant
 #' @param sensitivity perform senstivity analysis
 #' @param sens.1 first sensitivity analysis
 #' @param sens.2 second sensitivity analysis
@@ -950,7 +948,7 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' @import compiler Rmpfr iterpc Matrix
 #' @importFrom Rcpp evalCpp
 #' @useDynLib hyprcoloc
-#' @author Christopher N Foley <chris.neal.foley@gmail.com> and James R Staley <jrstaley95@gmail.com>
+#' @author Christopher N Foley <chris.neal.foley@gmail.com> and/n James R Staley <jrstaley95@gmail.com>
 #' @examples
 #' # Regression coefficients and standard errors from ten GWAS studies (Traits 1-5, 6-8 & 9-10 colocalize)
 #' betas <- hyprcoloc::test.betas
