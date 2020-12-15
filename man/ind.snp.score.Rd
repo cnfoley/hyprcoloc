@@ -8,6 +8,8 @@ ind.snp.score(Q, snp.scores)
 }
 \arguments{
 \item{Q}{the number of traits}
+
+\item{snp.scores}{per snp posterior explained values}
 }
 \description{
 ind.snp.score

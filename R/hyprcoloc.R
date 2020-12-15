@@ -32,7 +32,7 @@ p.0 <- function(j, Q){
 #' ind.snp.score
 #'
 #' @param Q the number of traits 
-#' @param snp.scores
+#' @param snp.scores per snp posterior explained values
 #' @export
 ind.snp.score <- function(Q, snp.scores){
   loc = vector("numeric", Q-1);
