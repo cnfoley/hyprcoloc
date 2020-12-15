@@ -174,7 +174,7 @@ cred.sets = function(res, value = 0.95){
 #' @param effect.est matrix of snp regression coefficients (i.e. regression beta values) in the genomic region 
 #' @param effect.se matrix of standard errors associated with the beta values
 #' @param binary.outcomes a binary vector of dimension the number of traits: 1 represents a binary trait 0 otherwise
-#' @param trait.subset vector of trait names (or number) from the full trait list: used for trageted coloclaisation analysis in a region
+#' @param trait.subset vector of trait names (or number) from the full trait list: used for trageted colocalization analysis in a region
 #' @param trait.names vector of trait names corresponding to the columns in the effect.est matrix
 #' @param snp.id vector of SNP IDs
 #' @param ld.matrix LD matrix
@@ -912,11 +912,11 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 
 #' HyPrColoc
 #'
-#' hyprcoloc is a function used to identify clusters of colocalized traits, and candidate causal SNPs, in genomic regions
+#' hyprcoloc is a function used to identify clusters of colocalized traits and candidate causal SNPs in genomic regions
 #' @param effect.est matrix of snp regression coefficients (i.e. regression beta values) in the genomic region 
 #' @param effect.se matrix of standard errors associated with the beta values
 #' @param binary.outcomes a binary vector of dimension the number of traits: 1 represents a binary trait 0 otherwise
-#' @param trait.subset vector of trait names (or number) from the full trait list: used for trageted coloclaisation analysis in a region
+#' @param trait.subset vector of trait names (or number) from the full trait list: used for trageted colocalization analysis in a region
 #' @param trait.names vector of trait names corresponding to the columns in the effect.est matrix
 #' @param snp.id vector of SNP IDs
 #' @param ld.matrix LD matrix
@@ -943,12 +943,12 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' @param branch.jump branch jump
 #' @param ind.traits are the traits independent or to be treated as independent
 #' @param snpscores output estimated posterior probability explained each SNP
-#' @return results a data.frame of HyPrColoc results
-#' @return snpscores a list of estimated posterior probabilities explained by the SNPs; for the BB algorithm there is a set of SNP probabilities for each iteration
+#' @return A data.frame of HyPrColoc results: each row is a cluster of colocalized traits or is coded NA (if no colocalization is identified)
+#' @return If snpscores=TRUE: additionally returns a list of posterior probability explained by each SNPs and for each cluster of colocalized traits identified
 #' @import compiler Rmpfr iterpc Matrix
 #' @importFrom Rcpp evalCpp
 #' @useDynLib hyprcoloc
-#' @author Christopher N Foley <chris.neal.foley@gmail.com> and/n James R Staley <jrstaley95@gmail.com>
+#' @author Christopher N Foley <chris.neal.foley@gmail.com> and James R Staley <jrstaley95@gmail.com>
 #' @examples
 #' # Regression coefficients and standard errors from ten GWAS studies
 #' # (Traits 1-5, 6-8 & 9-10 are the clusters of colocalized traits)
