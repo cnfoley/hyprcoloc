@@ -1,16 +1,16 @@
 Package: hyprcoloc
-Title: Hypothesis Prioritisation in multi-trait Colocalisation (HyPrColoc) analyses
+Title: Hypothesis Prioritisation in multi-trait Colocalization (HyPrColoc) 
 Version: 1.0
-Date: 15-01-2019
-Author: Christopher Foley and James Staley
-Maintainer: James Staley <jrstaley95@gmail.com>
-Description: This package is used to perform multi-trait colocalisation analyses using HyPrColoc. 
+Date: 15-12-2020
+Author: Christopher N Foley and James R Staley
+Maintainer: Christopher N Foley <chris.neal.foley@gmail.com> and James R Staley <jrstaley95@gmail.com>
+Description: This package is used to perform multi-trait colocalization analyses using HyPrColoc. 
 Depends: R (>= 3.4.0), methods
 License: GPL (>= 2)
 ByteCompile: TRUE
 LazyData: TRUE
 Encoding: UTF-8
-Imports: iterpc, Rcpp, RcppEigen, Rmpfr, compiler, Matrix, knitr, rmarkdown, pheatmap
+Imports: iterpc, Rcpp, RcppEigen, Rmpfr, compiler, Matrix, knitr, rmarkdown, pheatmap, RColorBrewer
 LinkingTo: Rcpp, RcppEigen
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.1

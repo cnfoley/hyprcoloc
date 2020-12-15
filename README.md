@@ -1,8 +1,8 @@
 # HyPrColoc
-Hypothesis Prioritisation in multi-trait Colocalization (HyPrColoc) analyses.
+Hypothesis Prioritisation in multi-trait Colocalization (HyPrColoc).
 
 ## Functions
-* hyprcoloc - performs multi-trait colocalization across multiple traits.  
+* hyprcoloc - identifies clusters of colocalized traits and candidate causal SNPs using the HyPrColoc Bayesian divisive clustering algorithm.
 
 ## Installation
 1. install.packages("devtools")
