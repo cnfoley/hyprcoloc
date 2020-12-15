@@ -4,71 +4,104 @@
 \alias{hyprcoloc}
 \title{HyPrColoc}
 \usage{
-hyprcoloc(effect.est, effect.se, binary.outcomes = rep(0, dim(Z)[2]),
+hyprcoloc(
+  effect.est,
+  effect.se,
+  binary.outcomes = rep(0, dim(effect.est)[2]),
   trait.subset = c(1:dim(effect.est)[2]),
-  trait.names = c(1:dim(effect.est)[2]), snp.id = c(1:dim(effect.est)[1]),
+  trait.names = c(1:dim(effect.est)[2]),
+  snp.id = c(1:dim(effect.est)[1]),
   ld.matrix = diag(1, dim(effect.est)[1], dim(effect.est)[1]),
   trait.cor = diag(1, dim(effect.est)[2], dim(effect.est)[2]),
-  sample.overlap = matrix(rep(1, dim(effect.est)[2]^2), nrow =
-  dim(effect.est)[2]), bb.alg = TRUE, bb.selection = "regional",
-  reg.steps = 1, reg.thresh = "default",
-  align.thresh = "default", prior.1 = 1e-04,
-  prior.2 = 0.98, sensitivity = FALSE, sense.1 = 1, sense.2 = 2,
-  uniform.priors = FALSE, ind.traits = FALSE, snpscores = FALSE)
+  sample.overlap = matrix(rep(1, dim(effect.est)[2]^2), nrow = dim(effect.est)[2]),
+  bb.alg = TRUE,
+  bb.selection = "regional",
+  reg.steps = 1,
+  reg.thresh = "default",
+  align.thresh = "default",
+  prior.1 = 1e-04,
+  prior.c = 0.02,
+  prior.12 = NULL,
+  sensitivity = FALSE,
+  sense.1 = 1,
+  sense.2 = 2,
+  uniform.priors = FALSE,
+  ind.traits = FALSE,
+  snpscores = FALSE
+)
 }
 \arguments{
-\item{effect.est}{matrix of estimated regression coefficients where columns denote traits and rows variants.}
+\item{effect.est}{matrix of beta values}
 
-\item{effect.se}{matrix of standard errors corresponding to the matrix of estimated regression coefficients.}
+\item{effect.se}{matrix of se values}
 
-\item{binary.outcomes}{a binary vector of length the number of traits considered. Each element should match the order of the columns in the effect matrices and be coded zero for continuous traits and one for binary traits. Default assumes all traits are continuous, i.e. a vector of zeros.}
+\item{binary.outcomes}{a binary vector depicting binary traits}
 
-\item{trait.subset}{vector of traits from the full trait list for targeted coloclaisation analysis. Default assumes all traits are included in analyses.}
+\item{trait.subset}{vector of traits from the full trait list for trageted coloclaisation analysis}
 
-\item{trait.names}{vector of trait names corresponding to the columns in the effect.est matrix. Default assigns a number to each trait corresponding to the order of the columns of the effect matrices.}
+\item{trait.names}{vector of trait names corresponding to the columns in the effect.est matrix}
 
-\item{snp.id}{vector of SNP IDs. Default assigns a number to each variant corresponding to the rows of the effect matrices.}
+\item{snp.id}{vector of SNP IDs}
 
-\item{ld.matrix}{pairwise LD matrix. Default assumes an identity matrix of dimension the number of variants in the region.}
+\item{ld.matrix}{LD matrix}
 
-\item{trait.cor}{correlation matrix between traits. Default assumes an identity matrix of dimension the number of traits considered.}
+\item{trait.cor}{correlation matrix between traits}
 
-\item{sample.overlap}{matrix denoting the pairwise sample overlap between any two studies, i.e. the proportion of participants shared between any two studies so the diagonal elements are always 1. When there is evidence of trait correlation, the default assumes that all studies have eactly the same participants.}
+\item{sample.overlap}{matrix of sample overlap between traits}
 
-\item{bb.alg}{branch and bound algorithm, either TRUE and algorithm is employed or FALSE and an assessment of colocalization across all traits is performed only}
+\item{bb.alg}{branch and bound algorithm}
 
-\item{bb.selection}{branch and bound algorithm type. Three options: "regional", bases branch selection on traits most likely to share an association region; "align" bases branch selection on which traits are most likely to have association signals aligned at a single CV and; "reg.only" this option quickly identifies subsets of traits with potential of colocalizaing by avoiding computing an alignment statistic. Default is "regional"}
+\item{bb.selection}{branch and bound algorithm type}
 
-\item{reg.steps}{regional step paramter, this denotes the number of prioritised hypotheses used to compute the regional statistic. The default, reg.steps=1, uses the null hypotheses (H0), the hypothese all m traits colocalize (Hm) and the m sets of m-1 traits sharing a CV (Hm-1) as in main text. Increasing to reg.steps=2 will include all m choose 2 subsets of traits sharing a CV and so on up to a maximum of reg.steps=m which denotes all 2^m subsets of traits that can share a CV will be computed.}
-  
-\item{reg.thresh}{regional probability threshold. This parameter denotes the probability with which evidence that a set of traits have a shared association region. Default is reg.thresh=0.5 when using non uniform priors and reg.thresh=0.7 when using uniform priors.}
+\item{reg.steps}{regional step paramter}
 
-\item{align.thresh}{alignment probability threshold. This parameter denotes the probability with which evidence that a set of traits have a shared association region which aligns at a single CV. Default is align.thresh=0.5 when using non uniform priors and align.thresh=0.7 when using uniform priors.}
+\item{align.thresh}{alignment probability threshold}
 
 \item{prior.1}{prior probability of a SNP being associated with one trait}
 
-\item{prior.2}{1 - prior probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait}
+\item{prior.c}{conditional colocalization prior: prior probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait}
 
-\item{sensitivity}{assess sensitivity of results to an increase in the number of hypotheses used to computate the regional statistic. This assesses the health of the default hyprmtc approximation by benchmarking against a more expensive approximation which includes more terms in the asymtptotic expansion. Results returned are the ratio sense.1 and sense.2, the closer the ratio is to 1 the greater the evidence that the default approximation is accurate. Default is set to sensitivity=FALSE}
+\item{prior.12}{COLOC users: prior probability that a SNP is associated with two traits}
 
-\item{sens.1}{choose a base level of prioritised hypotheses to compute the regional statistic, default is the null hypotheses H0, the hypothese all m traits colocalise Hm and the m sets of m-1 traits sharing a CV as in main text}
+\item{sensitivity}{perform senstivity analysis}
 
-\item{sens.2}{increase the number of prioritised hypotheses for computing the regional statistic, default increases to also include collections all m choose 2 collections of m-2 traits sharing a CV}
+\item{ind.traits}{are the traits independent or to be treated as independent}
 
-\item{uniform.priors}{uniform priors. Default is to use variant specific prior configuration proababilities setting uniform.prior=FALSE.}
-  
-\item{ind.traits}{are the traits independent or to be treated as independent. Default ind.traits=FALSE}
-                       
-\item{snpscores}{output the estimated posterior probability explained by each SNP. Default snpscores=FALSE}
+\item{snpscores}{output estimated posterior probability explained each SNP}
 
+\item{n.cvs}{number of causal variants}
+
+\item{window.size}{size of window for 2CV testing}
+
+\item{sentinel}{sentinel variant}
+
+\item{epsilon}{tolerance parameter}
+
+\item{reg.thres}{regional probability threshold}
+
+\item{reg.tol}{regional tolerance parameter}
+
+\item{prior.3}{prior probability that a trait contains a second causal variant given it contains one already}
+
+\item{prior.4}{1 - prior probability that trait two co-localises with trait one given traits one and two already share a causal variant and trait one contains a second causal variant}
+
+\item{sens.1}{first sensitivity analysis}
+
+\item{sens.2}{second sensitivity analysis}
+
+\item{cor.adj.priors}{correlation adjusted priors}
+
+\item{unifrom.priors}{uniform priors}
+
+\item{branch.jump}{branch jump}
 }
 \value{
-results a data.frame of HyPrColoc results
+a data.frame of HyPrColoc results
 
 snpscores a list of estimated posterior probabilities explained by the SNPs; for the BB algorithm there is a set of SNP probabilities for each iteration
 }
 \description{
-HyPrColoc is a Bayesian methodology which allows users to perform multi-trait colocalisation analyses across vast numbers of traits in a genomic region. The software outputs sets of traits deemed to colocalize at distinct distinct 'causal' variants, returning a posterior probability of colocalization and pinpointing a putative causal variant for each set. To assess the quality of the multi-trait fine-mapping the proportion of posterior probability explained by the candidate causal variant for each collection is presented.  
+hyprcoloc is a function which allows the user to perform multi-trait colocalisation analyses in genomic regions
 }
 \examples{
 # Regression coefficients and standard errors from ten GWAS studies (Traits 1-5, 6-8 & 9-10 colocalize)
@@ -85,5 +118,5 @@ rsid <- rownames(betas)
 results <- hyprcoloc(betas, ses, trait.names=traits, snp.id=rsid)
 }
 \author{
-Christopher Foley <christopher.foley@mrc-bsu.cam.ac.uk> and James R Staley <jrstaley95@gmail.com>
+Christopher Foley <christopher.foley@mrc-bsu.cam.ac.uk> and James R Staley <james.staley@bristol.ac.uk>
 }
