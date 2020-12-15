@@ -191,7 +191,7 @@ cred.sets = function(res, value = 0.95){
 #' @param align.thresh a vector of alignment probability thresholds
 #' @param reg.tol regional tolerance parameter
 #' @param prior.1 prior probability of a SNP being associated with one trait
-#' @param prior.2 a vector of prior probabilities where: 1 - prior is the probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
+#' @param prior.c a vector of prior probabilities where: prior.c is the "conditional colocalization prior", i.e. the probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
 #' @param prior.3 prior probability that a trait contains a second causal variant given it contains one already
 #' @param prior.4 1 - prior probability that trait two co-localises with trait one given traits one and two already share a causal variant and trait one contains a second causal variant
 #' @param unifrom.priors uniform priors
@@ -202,23 +202,27 @@ sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(
                             snp.id = c(1:dim(effect.est)[1]), ld.matrix = diag(1, dim(effect.est)[1], dim(effect.est)[1]),
                             trait.cor = diag(1, dim(effect.est)[2], dim(effect.est)[2]), sample.overlap = matrix(rep(1,dim(effect.est)[2]^2), nrow = dim(effect.est)[2]),
                             bb.alg = TRUE, bb.selection = "regional", reg.steps = 1, reg.thresh = c(0.6,0.7,0.8,0.9), align.thresh = c(0.6,0.7,0.8,0.9),
-                            prior.1 = 1e-4, prior.2 = c(0.98, 0.99, 0.995), uniform.priors = FALSE,
+                            prior.1 = 1e-4, prior.c = c(0.02, 0.01, 0.005), 
+                            prior.12 = NULL, uniform.priors = FALSE,
                             ind.traits = TRUE, equal.thresholds = FALSE, similarity.matrix = FALSE){
   
   m = dim(effect.est)[2];                            
   snp.combin = function(x, y, vec){I = iterpc(x, y, labels = vec);return(getall(I)+0.0)};
   sim.mat = diag(0,m);
   
+  if(!is.null(prior.12)){
+    prior.c = prior.12/(prior.1+prior.12);
+  }
   
   for(i in reg.thresh){
-      for(k in prior.2){
+      for(k in prior.c){
           if(equal.thresholds){
               j = i;
               tmp.mat = diag(1,m);                                     
               res = hyprcoloc(effect.est, effect.se, binary.outcomes = binary.outcomes, trait.subset = trait.subset, trait.names = trait.names,
                               snp.id = snp.id, ld.matrix = ld.matrix, trait.cor = trait.cor, sample.overlap = sample.overlap, bb.alg = bb.alg, bb.selection = bb.selection,
                               reg.steps = reg.steps, reg.thresh = i, align.thresh = j,
-                              prior.1 = prior.1, prior.2 = k, uniform.priors = uniform.priors, ind.traits = ind.traits);
+                              prior.1 = prior.1, prior.c = k, uniform.priors = uniform.priors, ind.traits = ind.traits);
               trt.clusts = res[[1]]$traits;
               for(its in 1:length(trt.clusts)){
                 tmp.clust = unlist(strsplit(trt.clusts[its], split=", "));
@@ -236,7 +240,7 @@ sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(
               res = hyprcoloc(effect.est, effect.se, binary.outcomes = binary.outcomes, trait.subset = trait.subset, trait.names = trait.names,
                               snp.id = snp.id, ld.matrix = ld.matrix, trait.cor = trait.cor, sample.overlap = sample.overlap, bb.alg = bb.alg, bb.selection = bb.selection,
                               reg.steps = reg.steps, reg.thresh = i, align.thresh = j,
-                              prior.1 = prior.1, prior.2 = k, uniform.priors = uniform.priors, ind.traits = ind.traits);
+                              prior.1 = prior.1, prior.c = k, uniform.priors = uniform.priors, ind.traits = ind.traits);
               trt.clusts = res[[1]]$traits;
               for(its in 1:length(trt.clusts)){
                 tmp.clust = unlist(strsplit(trt.clusts[its], split=", "));
@@ -938,7 +942,7 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' @param branch.jump branch jump
 #' @param ind.traits are the traits independent or to be treated as independent
 #' @param snpscores output estimated posterior probability explained each SNP
-#' @return results a data.frame of HyPrColoc results
+#' @return  a data.frame of HyPrColoc results
 #' @return snpscores a list of estimated posterior probabilities explained by the SNPs; for the BB algorithm there is a set of SNP probabilities for each iteration
 #' @import compiler Rmpfr iterpc Matrix
 #' @importFrom Rcpp evalCpp
