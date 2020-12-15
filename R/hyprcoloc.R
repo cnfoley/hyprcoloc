@@ -32,7 +32,7 @@ p.0 <- function(j, Q){
 #' ind.snp.score
 #'
 #' @param Q the number of traits 
-#' @param snp.scores
+#' @param snp.scores vector of per snp contributions to the posterior probability of colocalization
 #' @export
 ind.snp.score <- function(Q, snp.scores){
   loc = vector("numeric", Q-1);
@@ -165,7 +165,7 @@ cred.sets = function(res, value = 0.95){
 
 
 ###########################################################################################################################################
-##### Perform a sensitivity analysis by varying the algorithm (regional and alignment) thresholds and coloclaization prior (prior.2)  #####
+##### Perform a sensitivity analysis by varying the algorithm (regional and alignment) thresholds and coloclaization prior (prior.c)  #####
 ###########################################################################################################################################
 
 #' sensitivity.plot
@@ -191,34 +191,41 @@ cred.sets = function(res, value = 0.95){
 #' @param align.thresh a vector of alignment probability thresholds
 #' @param reg.tol regional tolerance parameter
 #' @param prior.1 prior probability of a SNP being associated with one trait
-#' @param prior.2 a vector of prior probabilities where: 1 - prior is the probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
+#' @param prior.c vector of conditional colocalization priors: where prior.c is the probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
+#' @param prior.12 COLOC prior p12: prior probability of a SNP being associated with any two traits
 #' @param prior.3 prior probability that a trait contains a second causal variant given it contains one already
 #' @param prior.4 1 - prior probability that trait two co-localises with trait one given traits one and two already share a causal variant and trait one contains a second causal variant
 #' @param unifrom.priors uniform priors
 #' @param ind.traits are the traits independent or to be treated as independent
 #' @param equal.thresholds fix the regional and alignment thresholds to be equal
+#' @import pheatmap RColorBrewer
+#' @export
 sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect.est)[2]), 
                             trait.subset = c(1:dim(effect.est)[2]), trait.names = c(1:dim(effect.est)[2]),
                             snp.id = c(1:dim(effect.est)[1]), ld.matrix = diag(1, dim(effect.est)[1], dim(effect.est)[1]),
                             trait.cor = diag(1, dim(effect.est)[2], dim(effect.est)[2]), sample.overlap = matrix(rep(1,dim(effect.est)[2]^2), nrow = dim(effect.est)[2]),
                             bb.alg = TRUE, bb.selection = "regional", reg.steps = 1, reg.thresh = c(0.6,0.7,0.8,0.9), align.thresh = c(0.6,0.7,0.8,0.9),
-                            prior.1 = 1e-4, prior.2 = c(0.98, 0.99, 0.995), uniform.priors = FALSE,
+                            prior.1 = 1e-4, prior.c = c(0.02, 0.01, 0.005), prior.12 = NULL,
+                            uniform.priors = FALSE,
                             ind.traits = TRUE, equal.thresholds = FALSE, similarity.matrix = FALSE){
   
   m = dim(effect.est)[2];                            
   snp.combin = function(x, y, vec){I = iterpc(x, y, labels = vec);return(getall(I)+0.0)};
   sim.mat = diag(0,m);
   
+  if(!is.null(prior.12)){
+    prior.c = prior.12/(prior.1 + prior.12);
+  }
   
   for(i in reg.thresh){
-      for(k in prior.2){
+      for(k in prior.c){
           if(equal.thresholds){
               j = i;
               tmp.mat = diag(1,m);                                     
               res = hyprcoloc(effect.est, effect.se, binary.outcomes = binary.outcomes, trait.subset = trait.subset, trait.names = trait.names,
                               snp.id = snp.id, ld.matrix = ld.matrix, trait.cor = trait.cor, sample.overlap = sample.overlap, bb.alg = bb.alg, bb.selection = bb.selection,
                               reg.steps = reg.steps, reg.thresh = i, align.thresh = j,
-                              prior.1 = prior.1, prior.2 = k, uniform.priors = uniform.priors, ind.traits = ind.traits);
+                              prior.1 = prior.1, prior.c = k, uniform.priors = uniform.priors, ind.traits = ind.traits);
               trt.clusts = res[[1]]$traits;
               for(its in 1:length(trt.clusts)){
                 tmp.clust = unlist(strsplit(trt.clusts[its], split=", "));
@@ -236,7 +243,7 @@ sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(
               res = hyprcoloc(effect.est, effect.se, binary.outcomes = binary.outcomes, trait.subset = trait.subset, trait.names = trait.names,
                               snp.id = snp.id, ld.matrix = ld.matrix, trait.cor = trait.cor, sample.overlap = sample.overlap, bb.alg = bb.alg, bb.selection = bb.selection,
                               reg.steps = reg.steps, reg.thresh = i, align.thresh = j,
-                              prior.1 = prior.1, prior.2 = k, uniform.priors = uniform.priors, ind.traits = ind.traits);
+                              prior.1 = prior.1, prior.c = k, uniform.priors = uniform.priors, ind.traits = ind.traits);
               trt.clusts = res[[1]]$traits;
               for(its in 1:length(trt.clusts)){
                 tmp.clust = unlist(strsplit(trt.clusts[its], split=", "));
@@ -252,7 +259,7 @@ sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(
         }
     }
   }
-  sim.mat = sim.mat/length(reg.thresh)/length(align.thresh)/length(prior.2);
+  sim.mat = sim.mat/length(reg.thresh)/length(align.thresh)/length(prior.c);
   if(equal.thresholds){
   sim.mat = sim.mat*length(align.thresh);
   }
@@ -926,7 +933,8 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' @param align.thresh alignment probability threshold
 #' @param reg.tol regional tolerance parameter
 #' @param prior.1 prior probability of a SNP being associated with one trait
-#' @param prior.2 1 - prior probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
+#' @param prior.c conditional colocalization prior: probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
+#' @param prior.12 COLOC prior p12: prior probability of a SNP being associated with any two traits
 #' @param prior.3 prior probability that a trait contains a second causal variant given it contains one already
 #' @param prior.4 1 - prior probability that trait two co-localises with trait one given traits one and two already share a causal variant and trait one contains a second causal variant
 #' @param sensitivity perform senstivity analysis
@@ -942,7 +950,7 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' @import compiler Rmpfr iterpc Matrix
 #' @importFrom Rcpp evalCpp
 #' @useDynLib hyprcoloc
-#' @author Christopher Foley <christopher.foley@mrc-bsu.cam.ac.uk> and James R Staley <james.staley@bristol.ac.uk>
+#' @author Christopher N Foley <chris.neal.foley@gmail.com> and James R Staley <jrstaley95@gmail.com>
 #' @examples
 #' # Regression coefficients and standard errors from ten GWAS studies (Traits 1-5, 6-8 & 9-10 colocalize)
 #' betas <- hyprcoloc::test.betas
@@ -956,7 +964,17 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' 
 #' # Colocalisation analyses
 #' results <- hyprcoloc(betas, ses, trait.names=traits, snp.id=rsid)
-hyprcoloc <- function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect.est)[2]), trait.subset = c(1:dim(effect.est)[2]), trait.names = c(1:dim(effect.est)[2]), snp.id = c(1:dim(effect.est)[1]), ld.matrix = diag(1, dim(effect.est)[1], dim(effect.est)[1]) , trait.cor = diag(1, dim(effect.est)[2], dim(effect.est)[2]), sample.overlap = matrix(rep(1,dim(effect.est)[2]^2) , nrow = dim(effect.est)[2]), bb.alg = TRUE, bb.selection = "regional", reg.steps = 1, reg.thresh = "default", align.thresh = "default", prior.1 = 1e-4, prior.2 = 0.98, sensitivity = FALSE, sense.1 = 1, sense.2 = 2, uniform.priors = FALSE, ind.traits = FALSE, snpscores=FALSE){
+#' @export
+hyprcoloc <- function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect.est)[2]), 
+                      trait.subset = c(1:dim(effect.est)[2]), trait.names = c(1:dim(effect.est)[2]), 
+                      snp.id = c(1:dim(effect.est)[1]), ld.matrix = diag(1, dim(effect.est)[1], dim(effect.est)[1]),
+                      trait.cor = diag(1, dim(effect.est)[2], dim(effect.est)[2]), 
+                      sample.overlap = matrix(rep(1,dim(effect.est)[2]^2) , nrow = dim(effect.est)[2]), 
+                      bb.alg = TRUE, bb.selection = "regional", 
+                      reg.steps = 1, reg.thresh = "default", align.thresh = "default", 
+                      prior.1 = 1e-4, prior.c = 0.02, prior.12 = NULL, 
+                      sensitivity = FALSE, sense.1 = 1, sense.2 = 2, 
+                      uniform.priors = FALSE, ind.traits = FALSE, snpscores=FALSE){
 
   if(any(is.na(effect.est))) stop("there are missing values in effect.est")
   if(any(is.na(effect.se))) stop("there are missing values in effect.se")
@@ -969,7 +987,11 @@ hyprcoloc <- function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect
   if(any(is.na(ld.matrix))) stop("there are missing values in ld.matrix")
   if(any(is.na(trait.cor))) stop("there are missing values in trait.cor")
   if(any(is.na(sample.overlap))) stop("there are missing values in sample.overlap")
-
+  
+  if(!is.null(prior.12)){
+    prior.c = prior.12/(prior.1 + prior.12);
+  }
+  prior.2 = 1-prior.c;
   n.cvs = 1;
   test.2 = F;
   sentinel = 0;
@@ -1423,7 +1445,7 @@ hyprcoloc <- function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect
 #'
 #' print method for class "hyprcoloc"
 #' @param x an object of class "hyprcoloc"
-#' @author Christopher Foley <christopher.foley@mrc-bsu.cam.ac.uk> and James R Staley <james.staley@bristol.ac.uk>
+#' @author Christopher N Foley (University of Cambridge) <chris.neal.foley@gmail.com> and James R Staley (University of Bristol) <jrstaley95@gmail.com>
 #' @export
 print.hyprcoloc <- function(x, ...){
   cat("\nCall: \nhyprcoloc")

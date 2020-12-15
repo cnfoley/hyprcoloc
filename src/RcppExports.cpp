@@ -6,27 +6,9 @@
 
 using namespace Rcpp;
 
-// align12
-List align12(NumericMatrix Zmatrix, NumericMatrix Wmatrix, NumericMatrix sTemp1, NumericVector traitsCo, NumericVector traitNo, NumericMatrix rho, NumericMatrix trait_cor, NumericVector EPS);
-RcppExport SEXP _hyprmtc_align12(SEXP ZmatrixSEXP, SEXP WmatrixSEXP, SEXP sTemp1SEXP, SEXP traitsCoSEXP, SEXP traitNoSEXP, SEXP rhoSEXP, SEXP trait_corSEXP, SEXP EPSSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type Zmatrix(ZmatrixSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type Wmatrix(WmatrixSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type sTemp1(sTemp1SEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type traitsCo(traitsCoSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type traitNo(traitNoSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type rho(rhoSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type trait_cor(trait_corSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type EPS(EPSSEXP);
-    rcpp_result_gen = Rcpp::wrap(align12(Zmatrix, Wmatrix, sTemp1, traitsCo, traitNo, rho, trait_cor, EPS));
-    return rcpp_result_gen;
-END_RCPP
-}
 // align1
 List align1(NumericMatrix Zmatrix, NumericMatrix Wmatrix, NumericVector N_CV, NumericVector traitsCo, NumericVector traitNo, NumericMatrix trait_cor, NumericMatrix rho, NumericVector EPS);
-RcppExport SEXP _hyprmtc_align1(SEXP ZmatrixSEXP, SEXP WmatrixSEXP, SEXP N_CVSEXP, SEXP traitsCoSEXP, SEXP traitNoSEXP, SEXP trait_corSEXP, SEXP rhoSEXP, SEXP EPSSEXP) {
+RcppExport SEXP _hyprcoloc_align1(SEXP ZmatrixSEXP, SEXP WmatrixSEXP, SEXP N_CVSEXP, SEXP traitsCoSEXP, SEXP traitNoSEXP, SEXP trait_corSEXP, SEXP rhoSEXP, SEXP EPSSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -42,9 +24,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// align12
+List align12(NumericMatrix Zmatrix, NumericMatrix Wmatrix, NumericMatrix sTemp1, NumericVector traitsCo, NumericVector traitNo, NumericMatrix rho, NumericMatrix trait_cor, NumericVector EPS);
+RcppExport SEXP _hyprcoloc_align12(SEXP ZmatrixSEXP, SEXP WmatrixSEXP, SEXP sTemp1SEXP, SEXP traitsCoSEXP, SEXP traitNoSEXP, SEXP rhoSEXP, SEXP trait_corSEXP, SEXP EPSSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type Zmatrix(ZmatrixSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type Wmatrix(WmatrixSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type sTemp1(sTemp1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type traitsCo(traitsCoSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type traitNo(traitNoSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type rho(rhoSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type trait_cor(trait_corSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type EPS(EPSSEXP);
+    rcpp_result_gen = Rcpp::wrap(align12(Zmatrix, Wmatrix, sTemp1, traitsCo, traitNo, rho, trait_cor, EPS));
+    return rcpp_result_gen;
+END_RCPP
+}
 // align1ind
 List align1ind(NumericMatrix Zmatrix, NumericMatrix Wmatrix, NumericVector traitsCo, NumericVector traitNo);
-RcppExport SEXP _hyprmtc_align1ind(SEXP ZmatrixSEXP, SEXP WmatrixSEXP, SEXP traitsCoSEXP, SEXP traitNoSEXP) {
+RcppExport SEXP _hyprcoloc_align1ind(SEXP ZmatrixSEXP, SEXP WmatrixSEXP, SEXP traitsCoSEXP, SEXP traitNoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -58,7 +58,7 @@ END_RCPP
 }
 // align2
 List align2(NumericMatrix Zmatrix, NumericMatrix Wmatrix, NumericMatrix sTemp1, NumericVector traitsCo, NumericVector traitNo, NumericMatrix rho, NumericMatrix trait_cor, NumericVector EPS);
-RcppExport SEXP _hyprmtc_align2(SEXP ZmatrixSEXP, SEXP WmatrixSEXP, SEXP sTemp1SEXP, SEXP traitsCoSEXP, SEXP traitNoSEXP, SEXP rhoSEXP, SEXP trait_corSEXP, SEXP EPSSEXP) {
+RcppExport SEXP _hyprcoloc_align2(SEXP ZmatrixSEXP, SEXP WmatrixSEXP, SEXP sTemp1SEXP, SEXP traitsCoSEXP, SEXP traitNoSEXP, SEXP rhoSEXP, SEXP trait_corSEXP, SEXP EPSSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -76,7 +76,7 @@ END_RCPP
 }
 // regional1
 List regional1(NumericMatrix zTemp1, NumericMatrix wTemp1, NumericVector traitsCo, NumericMatrix trait_cor, NumericVector EPS);
-RcppExport SEXP _hyprmtc_regional1(SEXP zTemp1SEXP, SEXP wTemp1SEXP, SEXP traitsCoSEXP, SEXP trait_corSEXP, SEXP EPSSEXP) {
+RcppExport SEXP _hyprcoloc_regional1(SEXP zTemp1SEXP, SEXP wTemp1SEXP, SEXP traitsCoSEXP, SEXP trait_corSEXP, SEXP EPSSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -91,7 +91,7 @@ END_RCPP
 }
 // regional1ind
 List regional1ind(NumericMatrix zTemp1, NumericMatrix wTemp1, NumericVector traitsCo);
-RcppExport SEXP _hyprmtc_regional1ind(SEXP zTemp1SEXP, SEXP wTemp1SEXP, SEXP traitsCoSEXP) {
+RcppExport SEXP _hyprcoloc_regional1ind(SEXP zTemp1SEXP, SEXP wTemp1SEXP, SEXP traitsCoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -104,7 +104,7 @@ END_RCPP
 }
 // regional2
 List regional2(NumericMatrix zTemp1, NumericMatrix wTemp1, NumericMatrix sTemp1, NumericVector traitsCo, NumericMatrix rho, NumericMatrix trait_cor, NumericVector EPS);
-RcppExport SEXP _hyprmtc_regional2(SEXP zTemp1SEXP, SEXP wTemp1SEXP, SEXP sTemp1SEXP, SEXP traitsCoSEXP, SEXP rhoSEXP, SEXP trait_corSEXP, SEXP EPSSEXP) {
+RcppExport SEXP _hyprcoloc_regional2(SEXP zTemp1SEXP, SEXP wTemp1SEXP, SEXP sTemp1SEXP, SEXP traitsCoSEXP, SEXP rhoSEXP, SEXP trait_corSEXP, SEXP EPSSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -121,17 +121,17 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_hyprmtc_align12", (DL_FUNC) &_hyprmtc_align12, 8},
-    {"_hyprmtc_align1", (DL_FUNC) &_hyprmtc_align1, 8},
-    {"_hyprmtc_align1ind", (DL_FUNC) &_hyprmtc_align1ind, 4},
-    {"_hyprmtc_align2", (DL_FUNC) &_hyprmtc_align2, 8},
-    {"_hyprmtc_regional1", (DL_FUNC) &_hyprmtc_regional1, 5},
-    {"_hyprmtc_regional1ind", (DL_FUNC) &_hyprmtc_regional1ind, 3},
-    {"_hyprmtc_regional2", (DL_FUNC) &_hyprmtc_regional2, 7},
+    {"_hyprcoloc_align1", (DL_FUNC) &_hyprcoloc_align1, 8},
+    {"_hyprcoloc_align12", (DL_FUNC) &_hyprcoloc_align12, 8},
+    {"_hyprcoloc_align1ind", (DL_FUNC) &_hyprcoloc_align1ind, 4},
+    {"_hyprcoloc_align2", (DL_FUNC) &_hyprcoloc_align2, 8},
+    {"_hyprcoloc_regional1", (DL_FUNC) &_hyprcoloc_regional1, 5},
+    {"_hyprcoloc_regional1ind", (DL_FUNC) &_hyprcoloc_regional1ind, 3},
+    {"_hyprcoloc_regional2", (DL_FUNC) &_hyprcoloc_regional2, 7},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_hyprmtc(DllInfo *dll) {
+RcppExport void R_init_hyprcoloc(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
