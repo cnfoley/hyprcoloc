@@ -29,7 +29,7 @@ options(warn=-1)
 ```{r, eval=F}
 install.packages("devtools", repos='http://cran.us.r-project.org')
 library(devtools)
-install_github("jrs95/hyprcoloc")
+install_github("cnfoley/hyprcoloc")
 ```
 
 << Getting started
