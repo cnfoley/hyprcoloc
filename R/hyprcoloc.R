@@ -273,7 +273,7 @@ sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(
   breaksList = seq(0,1,by=0.02);
   plot = pheatmap(
     mat               = sim.mat,
-    color             = colorRampPalette((brewer.pal(n = 9, name = "OrRd")))(length(breaksList)),
+    color             = colorRampPalette((brewer.pal(n = 9, name = "Blues")))(length(breaksList)),
     breaks = breaksList,
     border_color      = NA,
     show_colnames     = TRUE,
