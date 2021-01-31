@@ -275,6 +275,8 @@ sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(
     mat               = sim.mat,
     color             = colorRampPalette((brewer.pal(n = 9, name = "Blues")))(length(breaksList)),
     breaks = breaksList,
+    cluster_cols = FALSE,
+    cluster_rows = FALSE,
     border_color      = NA,
     show_colnames     = TRUE,
     show_rownames     = TRUE,
