@@ -281,7 +281,7 @@ sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(
     #annotation_col    = annotation_row,
     drop_levels       = TRUE,
     fontsize          = 6,
-    main              = "Default Heatmap"
+    main              = "Prior sensitivity heatmap"
   )
   
   if(!similarity.matrix){
