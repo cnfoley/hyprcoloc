@@ -37,7 +37,7 @@ hyprcoloc(
 
 \item{binary.outcomes}{a binary vector of dimension the number of traits: 1 represents a binary trait 0 otherwise}
 
-\item{trait.subset}{vector of trait names (or number) from the full trait list: used for trageted coloclaisation analysis in a region}
+\item{trait.subset}{vector of trait names (or number) from the full trait list: used for trageted colocalization analysis in a region}
 
 \item{trait.names}{vector of trait names corresponding to the columns in the effect.est matrix}
 
@@ -92,12 +92,12 @@ hyprcoloc(
 \item{branch.jump}{branch jump}
 }
 \value{
-results a data.frame of HyPrColoc results
+A data.frame of HyPrColoc results: each row is a cluster of colocalized traits or is coded NA (if no colocalization is identified)
 
-snpscores a list of estimated posterior probabilities explained by the SNPs; for the BB algorithm there is a set of SNP probabilities for each iteration
+If snpscores=TRUE: additionally returns a list of posterior probability explained by each SNPs and for each cluster of colocalized traits identified
 }
 \description{
-hyprcoloc is a function used to identify clusters of colocalized traits, and candidate causal SNPs, in genomic regions
+hyprcoloc is a function used to identify clusters of colocalized traits and candidate causal SNPs in genomic regions
 }
 \examples{
 # Regression coefficients and standard errors from ten GWAS studies
@@ -115,5 +115,5 @@ rsid <- rownames(betas)
 results <- hyprcoloc(betas, ses, trait.names=traits, snp.id=rsid)
 }
 \author{
-Christopher N Foley <chris.neal.foley@gmail.com> and/n James R Staley <jrstaley95@gmail.com>
+Christopher N Foley <chris.neal.foley@gmail.com> and James R Staley <jrstaley95@gmail.com>
 }

@@ -35,7 +35,7 @@ sensitivity.plot(
 
 \item{binary.outcomes}{a binary vector of dimension the number of traits: 1 represents a binary trait 0 otherwise}
 
-\item{trait.subset}{vector of trait names (or number) from the full trait list: used for trageted coloclaisation analysis in a region}
+\item{trait.subset}{vector of trait names (or number) from the full trait list: used for trageted colocalization analysis in a region}
 
 \item{trait.names}{vector of trait names corresponding to the columns in the effect.est matrix}
 

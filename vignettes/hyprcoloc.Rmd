@@ -3,16 +3,17 @@ title: "HyPrColoc"
 author: "Christopher N Foley & James R Staley"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
-    toc: yes
-    toc_depth: '2'
   html_document:
     toc: yes
     theme: united
     toc_depth: 2
     number_sections: yes
-vignette: "%\\VignetteIndexEntry{mrclust} \n%\\VignetteEngine{knitr::rmarkdown} \n%\\VignetteEncoding{UTF-8}\n"
+vignette: |
+  %\VignetteIndexEntry{tagmEM} 
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown} 
 ---
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
