@@ -1452,3 +1452,6 @@ print.hyprcoloc <- function(x, ...){
   print(x$results)
   cat("\n")
 }
+
+# prevents R check throwing errors about unassigned global variables
+utils::globalVariables(c("colorRampPalette", "combn", "runif"))

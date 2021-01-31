@@ -9,7 +9,7 @@ output:
     toc_depth: 2
     number_sections: yes
 vignette: |
-  %\VignetteIndexEntry{tagmEM} 
+  %\VignetteIndexEntry{hyprcoloc} 
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown} 
 ---
