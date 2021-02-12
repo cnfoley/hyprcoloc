@@ -15,7 +15,7 @@ rapid.align(Zsq, Wsq, prior.1, prior.2, uniform.priors)
 
 \item{prior.2}{1 - prior probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait}
 
-\item{unifrom.priors}{uniform priors}
+\item{uniform.priors}{uniform priors}
 }
 \description{
 rapid.align

@@ -180,22 +180,18 @@ cred.sets = function(res, value = 0.95){
 #' @param ld.matrix LD matrix
 #' @param trait.cor matrix of pairwise correlations between traits
 #' @param sample.overlap matrix of pairwise sample overlap between traits
-#' @param n.cvs number of causal variants
 #' @param bb.alg branch and bound algorithm: TRUE, employ BB algorithm; FALSE, do not
 #' @param bb.selection branch and bound algorithm type, e.g. regional or alignment selection
 #' @param reg.steps regional step paramter
-#' @param window.size size of window for 2CV testing
-#' @param sentinel sentinel variant
-#' @param epsilon tolerance parameter
-#' @param reg.thres a vector of regional probability thresholds
+#' @param reg.thresh a vector of regional probability thresholds
 #' @param align.thresh a vector of alignment probability thresholds
-#' @param reg.tol regional tolerance parameter
 #' @param prior.1 prior probability of a SNP being associated with one trait
 #' @param prior.c vector of conditional colocalization priors: where prior.c is the probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
 #' @param prior.12 COLOC prior p12: prior probability of a SNP being associated with any two traits
-#' @param unifrom.priors uniform priors
+#' @param uniform.priors uniform priors
 #' @param ind.traits are the traits independent or to be treated as independent
 #' @param equal.thresholds fix the regional and alignment thresholds to be equal
+#' @param similarity.matrix To be viewed as a similarity matrix. Default FALSE.
 #' @import pheatmap RColorBrewer
 #' @export
 sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect.est)[2]), 
@@ -305,7 +301,7 @@ sensitivity.plot = function(effect.est, effect.se, binary.outcomes = rep(0, dim(
 #' @param Wsq ratio matrix of prior standard deviation and observed standard errors squared
 #' @param prior.1 prior probability of a SNP being associated with one trait
 #' @param prior.2 1 - prior probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
-#' @param unifrom.priors uniform priors
+#' @param uniform.priors uniform priors
 #' @export
 rapid.reg <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
   
@@ -363,7 +359,7 @@ rapid.reg <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' @param test.2 test for 2CV
 #' @param reg.steps regional step paramter
 #' @param cor.adj.priors correlation adjusted priors
-#' @param unifrom.priors uniform priors
+#' @param uniform.priors uniform priors
 #' @param branch.jump branch jump
 #' @param Zsq matrix of Z-scores squared
 #' @param Wsq matrix of W squared
@@ -543,7 +539,7 @@ regional.ABF <- function(Z, W, snps.clc, rho, trait.cor, sample.overlap, epsilon
 #' @param Wsq ratio matrix of prior standard deviation and observed standard errors squared
 #' @param prior.1 prior probability of a SNP being associated with one trait
 #' @param prior.2 1 - prior probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
-#' @param unifrom.priors uniform priors
+#' @param uniform.priors uniform priors
 #' @export
 rapid.align <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
   
@@ -714,7 +710,7 @@ align.ABF.1 <- function(Z, W, trait.cor, sample.overlap, ld.matrix,  epsilon, re
 #' @param prior.3 prior probability that a trait contains a second causal variant given it contains one already
 #' @param prior.4 1 - prior probability that trait two co-localises with trait one given traits one and two already share a causal variant and trait one contains a second causal variant
 #' @param cor.adj.priors correlation adjusted priors
-#' @param unifrom.priors uniform priors
+#' @param uniform.priors uniform priors
 #' @export
 align.ABF.2 <- function(Z, W, snps.clc, trait.cor, sample.overlap, ld.matrix, epsilon, reg.res, align.thresh, prior.1, prior.2, prior.3, prior.4, cor.adj.priors, uniform.priors){
   
@@ -857,7 +853,7 @@ align.ABF.2 <- function(Z, W, snps.clc, trait.cor, sample.overlap, ld.matrix, ep
 #' @param Wsq ratio matrix of prior standard deviation and observed standard errors squared
 #' @param prior.1 prior probability of a SNP being associated with one trait
 #' @param prior.2 1 - prior probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
-#' @param unifrom.priors uniform priors
+#' @param uniform.priors uniform priors
 #' @export
 rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
   
@@ -924,25 +920,18 @@ rapid.hyprcoloc <- function(Zsq, Wsq, prior.1, prior.2, uniform.priors){
 #' @param ld.matrix LD matrix
 #' @param trait.cor matrix of pairwise correlations between traits
 #' @param sample.overlap matrix of pairwise sample overlap between traits
-#' @param n.cvs number of causal variants
 #' @param bb.alg branch and bound algorithm: TRUE, employ BB algorithm; FALSE, do not
 #' @param bb.selection branch and bound algorithm type, e.g. regional or alignment selection
 #' @param reg.steps regional step paramter
-#' @param window.size size of window for 2CV testing
-#' @param sentinel sentinel variant
-#' @param epsilon tolerance parameter
-#' @param reg.thres regional probability threshold
-#' @param align.thresh alignment probability threshold
-#' @param reg.tol regional tolerance parameter
+#' @param reg.thresh threshold probability beyond which traits are believed to share a regional association signal 
+#' @param align.thresh threshold probability beyond which traits are believed to align at a single causal variant
 #' @param prior.1 prior probability of a SNP being associated with one trait
 #' @param prior.c conditional colocalization prior: probability of a SNP being associated with an additional trait given that the SNP is associated with at least 1 other trait
 #' @param prior.12 COLOC prior p12: prior probability of a SNP being associated with any two traits
 #' @param sensitivity perform senstivity analysis
-#' @param sens.1 first sensitivity analysis
-#' @param sens.2 second sensitivity analysis
-#' @param cor.adj.priors correlation adjusted priors
-#' @param unifrom.priors uniform priors
-#' @param branch.jump branch jump
+#' @param sense.1 first sensitivity analysis
+#' @param sense.2 second sensitivity analysis
+#' @param uniform.priors uniform priors
 #' @param ind.traits are the traits independent or to be treated as independent
 #' @param snpscores output estimated posterior probability explained each SNP
 #' @return A data.frame of HyPrColoc results: each row is a cluster of colocalized traits or is coded NA (if no colocalization is identified)
@@ -1447,6 +1436,9 @@ hyprcoloc <- function(effect.est, effect.se, binary.outcomes = rep(0, dim(effect
 #' print method for class "hyprcoloc"
 #' @param x an object of class "hyprcoloc"
 #' @author Christopher N Foley (University of Cambridge) <chris.neal.foley@gmail.com> and James R Staley (University of Bristol) <jrstaley95@gmail.com>
+#' @param ... Other arguments passed to or from other methods
+#'
+#' @export print.hyprcoloc
 #' @export
 print.hyprcoloc <- function(x, ...){
   cat("\nCall: \nhyprcoloc")

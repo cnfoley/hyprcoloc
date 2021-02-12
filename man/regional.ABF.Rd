@@ -61,6 +61,8 @@ regional.ABF(
 
 \item{cor.adj.priors}{correlation adjusted priors}
 
+\item{uniform.priors}{uniform priors}
+
 \item{branch.jump}{branch jump}
 
 \item{Zsq}{matrix of Z-scores squared}
@@ -68,8 +70,6 @@ regional.ABF(
 \item{Wsq}{matrix of W squared}
 
 \item{ind.traits}{are the traits independent or to be treated as independent}
-
-\item{unifrom.priors}{uniform priors}
 }
 \description{
 regional.ABF

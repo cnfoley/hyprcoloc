@@ -51,7 +51,7 @@ align.ABF.2(
 
 \item{cor.adj.priors}{correlation adjusted priors}
 
-\item{unifrom.priors}{uniform priors}
+\item{uniform.priors}{uniform priors}
 }
 \description{
 align.ABF.2

@@ -53,6 +53,8 @@ sensitivity.plot(
 
 \item{reg.steps}{regional step paramter}
 
+\item{reg.thresh}{a vector of regional probability thresholds}
+
 \item{align.thresh}{a vector of alignment probability thresholds}
 
 \item{prior.1}{prior probability of a SNP being associated with one trait}
@@ -61,23 +63,13 @@ sensitivity.plot(
 
 \item{prior.12}{COLOC prior p12: prior probability of a SNP being associated with any two traits}
 
+\item{uniform.priors}{uniform priors}
+
 \item{ind.traits}{are the traits independent or to be treated as independent}
 
 \item{equal.thresholds}{fix the regional and alignment thresholds to be equal}
 
-\item{n.cvs}{number of causal variants}
-
-\item{window.size}{size of window for 2CV testing}
-
-\item{sentinel}{sentinel variant}
-
-\item{epsilon}{tolerance parameter}
-
-\item{reg.thres}{a vector of regional probability thresholds}
-
-\item{reg.tol}{regional tolerance parameter}
-
-\item{unifrom.priors}{uniform priors}
+\item{similarity.matrix}{To be viewed as a similarity matrix. Default FALSE.}
 }
 \description{
 sensitivity.plot is a function which repeatedly calls the hyprcoloc function to compute a similarity matrix which illustrates how strongly clustered/colocalized pairs of traits are across different input thresholds and priors

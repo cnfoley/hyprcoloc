@@ -8,6 +8,8 @@ print.hyprcoloc(x, ...)
 }
 \arguments{
 \item{x}{an object of class "hyprcoloc"}
+
+\item{...}{Other arguments passed to or from other methods}
 }
 \description{
 print method for class "hyprcoloc"

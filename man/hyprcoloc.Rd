@@ -55,7 +55,9 @@ hyprcoloc(
 
 \item{reg.steps}{regional step paramter}
 
-\item{align.thresh}{alignment probability threshold}
+\item{reg.thresh}{threshold probability beyond which traits are believed to share a regional association signal}
+
+\item{align.thresh}{threshold probability beyond which traits are believed to align at a single causal variant}
 
 \item{prior.1}{prior probability of a SNP being associated with one trait}
 
@@ -65,31 +67,15 @@ hyprcoloc(
 
 \item{sensitivity}{perform senstivity analysis}
 
+\item{sense.1}{first sensitivity analysis}
+
+\item{sense.2}{second sensitivity analysis}
+
+\item{uniform.priors}{uniform priors}
+
 \item{ind.traits}{are the traits independent or to be treated as independent}
 
 \item{snpscores}{output estimated posterior probability explained each SNP}
-
-\item{n.cvs}{number of causal variants}
-
-\item{window.size}{size of window for 2CV testing}
-
-\item{sentinel}{sentinel variant}
-
-\item{epsilon}{tolerance parameter}
-
-\item{reg.thres}{regional probability threshold}
-
-\item{reg.tol}{regional tolerance parameter}
-
-\item{sens.1}{first sensitivity analysis}
-
-\item{sens.2}{second sensitivity analysis}
-
-\item{cor.adj.priors}{correlation adjusted priors}
-
-\item{unifrom.priors}{uniform priors}
-
-\item{branch.jump}{branch jump}
 }
 \value{
 A data.frame of HyPrColoc results: each row is a cluster of colocalized traits or is coded NA (if no colocalization is identified)
